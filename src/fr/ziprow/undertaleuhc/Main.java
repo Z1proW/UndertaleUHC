@@ -53,15 +53,15 @@ public class Main extends JavaPlugin
 	
 	private void getCommands()
 	{
-		getCommand("start"		).setExecutor(new StartCMD		(game));
-		getCommand("info"		).setExecutor(new InfoCMD		(game));
-		getCommand("role"		).setExecutor(new RoleCMD		(game));
-		getCommand("items"		).setExecutor(new ItemsCMD		(    ));
+		getCommand("start").setExecutor(new StartCMD(game));
+		getCommand("info").setExecutor(new InfoCMD(game));
+		getCommand("role").setExecutor(new RoleCMD(game));
+		getCommand("items").setExecutor(new ItemsCMD());
 		getCommand("choosechara").setExecutor(new ChooseCharaCMD(game));
 		getCommand("choosefrisk").setExecutor(new ChooseFriskCMD(this, game));
-		getCommand("spare"		).setExecutor(new SpareCMD		(game));
-		getCommand("revive"		).setExecutor(new ReviveCMD		(game));
-		getCommand("sympa"		).setExecutor(new SympaCMD		(game));
+		getCommand("spare").setExecutor(new SpareCMD(game));
+		getCommand("revive").setExecutor(new ReviveCMD(game));
+		getCommand("sympa").setExecutor(new SympaCMD(game));
 	}
 	
 	private void getRecipes()

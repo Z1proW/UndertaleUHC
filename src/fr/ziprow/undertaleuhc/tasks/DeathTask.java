@@ -39,7 +39,6 @@ public class DeathTask extends BukkitRunnable
 	public static boolean hasRevive = true;
 	public static boolean hasRespawn = true;
 	public Player kindness;
-	public Player integrity;
 
 	public DeathTask(DeathEvent deathListener, GameManager gameManager)
 	{
@@ -86,7 +85,7 @@ public class DeathTask extends BukkitRunnable
 			for(UUID u : GameManager.playing)
 			{
 				Player p = Bukkit.getPlayer(u);
-				if(GameManager.rolesMap.get(p.getUniqueId()).equals(Role.KINDNESS)) kindness = p;
+				if(p != null && GameManager.rolesMap.get(p.getUniqueId()).equals(Role.KINDNESS)) kindness = p;
 			}
 			
 			if(!deathListener.player.equals(kindness) && hasRevive)
@@ -142,7 +141,7 @@ public class DeathTask extends BukkitRunnable
 	
 	private void kill(Player p, Inventory inv, Location loc)
 	{
-		Role role = GameManager.rolesMap.get(p.getUniqueId());
+		Role role = Utils.getRole(p);
 		
 		if(role != null)
 		{
@@ -163,16 +162,10 @@ public class DeathTask extends BukkitRunnable
 			
 			// On affiche le message de mort
 			Utils.broadcast(
-			"&c&m-------&c\u2764&m-------",
-			"&2" + p.getName() + " est mort !",
-			"&2Il était &o" + role.getName() + "&r&2.",
-			"&c&m-------&c\u2764&m-------");
-			
-			for(UUID u : GameManager.playing)
-			{
-				Player pl = Bukkit.getPlayer(u);
-				if(GameManager.rolesMap.get(pl.getUniqueId()).equals(Role.INTEGRITY)) integrity = pl;
-			}
+					"&c&m-------&c\u2764&m-------",
+					"&2" + p.getName() + " est mort !",
+					"&2Il était &o" + role.getName() + "&r&2.",
+					"&c&m-------&c\u2764&m-------");
 			
 			// On enlève force à Frisk si le joueur épargné est mort
 			if(p.equals(Bukkit.getPlayer(GameManager.spared)))
@@ -251,6 +244,7 @@ public class DeathTask extends BukkitRunnable
 			
 			// On l'enlève des joueurs
 			GameManager.playing.remove(p.getUniqueId());
+			GameManager.ally = null;
 			
 			int human = 0;
 			int monsters = 0;

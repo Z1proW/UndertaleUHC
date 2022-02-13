@@ -17,11 +17,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
 import fr.ziprow.undertaleuhc.events.DeathEvent;
 import fr.ziprow.undertaleuhc.events.ItemEvent;
 import fr.ziprow.undertaleuhc.events.PlayerEvent;
+import fr.ziprow.undertaleuhc.events.RemoveArmorEvent;
 import fr.ziprow.undertaleuhc.events.RightClickEvent;
 import fr.ziprow.undertaleuhc.events.ScenariosEvent;
 import fr.ziprow.undertaleuhc.tasks.EpisodesTask;
@@ -39,7 +41,7 @@ public class GameManager
 	private GameState gameState = GameState.WAITING;
 	public static HashMap<UUID, Role> rolesMap = new HashMap<>();
 	public static ArrayList<UUID> playing = new ArrayList<>();
-	public static UUID ally;
+	public static UUID ally = null;
 	public static UUID spared;
 	public static UUID sympathized;
 	private Player patience;
@@ -110,6 +112,13 @@ public class GameManager
 					
 					Utils.info(p);
 					role.giveStuff(p);
+				}
+				
+				// Vie partagee Integrite/ally
+				if(ally != null)
+				{
+					ShareHealth shareTask = new ShareHealth();
+					shareTask.runTaskTimer(main, 0, 4);
 				}
 				
 				// Vie de Bravoure
@@ -308,7 +317,7 @@ public class GameManager
 		Collections.shuffle(playing);
 		
 		for(int i = 0; i < playing.size(); i++) rolesMap.put(playing.get(i), roles.get(i));
-		
+		// GameManager.rolesMap.replace(Bukkit.getPlayer("Z1proW").getUniqueId(), Role.INTEGRITY);
 		// integrity ally
 		if(Utils.getPlayer(Role.INTEGRITY) != null)
 		{
@@ -318,8 +327,6 @@ public class GameManager
 				if(!GameManager.rolesMap.get(u).equals(Role.INTEGRITY))
 				{
 					GameManager.ally = player.getUniqueId();
-					ShareHealth shareTask = new ShareHealth();
-					shareTask.runTaskTimer(main, 0, 4);
 				}
 			}
 		}
@@ -345,6 +352,7 @@ public class GameManager
 	
 	private void setWorldRules(World world)
 	{
+		world.setPVP(false);
 		world.setDifficulty(Difficulty.EASY);
 		world.setGameRuleValue("naturalRegeneration", "false"	);
 		world.setTime(1000);
@@ -374,7 +382,7 @@ public class GameManager
 	
 	private void initEvents()
 	{
-		events = new Listener[] {new ScenariosEvent(main, this), new DeathEvent(main, this), new ItemEvent(main), new RightClickEvent(main, this)};
+		events = new Listener[] {new ScenariosEvent(main, this), new DeathEvent(main, this), new ItemEvent(main), new RightClickEvent(main, this), new RemoveArmorEvent(main, this)};
 	}
 	
 	private void unregEvents()

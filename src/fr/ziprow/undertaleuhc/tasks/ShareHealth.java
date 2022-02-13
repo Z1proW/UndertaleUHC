@@ -20,7 +20,7 @@ public class ShareHealth extends BukkitRunnable
 	
 	@Override
 	public void run()
-	{
+	{	
 		Player integrity = Bukkit.getPlayer(integrityUUID);
 		Player ally = Bukkit.getPlayer(allyUUID);
 		
@@ -41,13 +41,17 @@ public class ShareHealth extends BukkitRunnable
 			if(integrity.getMaxHealth() != maxHealth || ally.getMaxHealth() != maxHealth)
 			{
 				maxHealth = integrity.getMaxHealth() + ally.getMaxHealth() - maxHealth;
-				if(maxHealth < 0) maxHealth = 0;
 				integrity.setMaxHealth(maxHealth); ally.setMaxHealth(maxHealth);
 			}
 			else if(integrity.getHealth() != maxHealth || ally.getHealth() != maxHealth)
 			{
 				health = integrity.getHealth() + ally.getHealth() - health;
-				if(health < 0) health = 0;
+				if(health < 0)
+				{
+					if(integrity.isDead()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/kill" + ally.getCustomName());
+					else if(ally.isDead()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/kill" + integrity.getCustomName());
+					cancel();
+				}
 				integrity.setHealth(health); ally.setHealth(health);
 			}
 		}
