@@ -36,7 +36,7 @@ public class EpisodesTask extends BukkitRunnable
 		{
 			episode++;
 			eptimer = defaultTimer;
-			Utils.broadcast("&5&m-------&5Episode " + episode + "&m-------");
+			Utils.broadcast("&5&m       &5Episode " + episode + "&m       ");
 			for(Player p : Bukkit.getOnlinePlayers()) p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
 			switch(episode)
 			{

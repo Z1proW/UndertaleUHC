@@ -162,10 +162,10 @@ public class DeathTask extends BukkitRunnable
 			
 			// On affiche le message de mort
 			Utils.broadcast(
-					"&c&m-------&c\u2764&m-------",
+					"&c&m       &c\u2764&m       ",
 					"&2" + p.getName() + " est mort !",
 					"&2Il était &o" + role.getName() + "&r&2.",
-					"&c&m-------&c\u2764&m-------");
+					"&c&m       &c\u2764&m       ");
 			
 			// On enlève force à Frisk si le joueur épargné est mort
 			if(p.equals(Bukkit.getPlayer(GameManager.spared)))
@@ -284,25 +284,25 @@ public class DeathTask extends BukkitRunnable
 			if(monsters == 0 && neutral == 0) // win personne
 			{
 				Utils.broadcast(
-				"&d&m-------&d\u2764&m-------",
+				"&d&m       &d\u2764&m       ",
 				"&cPersonne n'a gagné !",
-				"&d&m-------&d\u2764&m-------");
+				"&d&m       &d\u2764&m       ");
 				end();
 			}
 			else if(monsters == 0 && neutral == 0) // win humains
 			{
 				Utils.broadcast(
-				"&d&m-------&d\u2764&m-------",
+				"&d&m       &d\u2764&m       ",
 				"&cLes humains ont gagné !",
-				"&d&m-------&d\u2764&m-------");
+				"&d&m       &d\u2764&m       ");
 				end();
 			}
 			else if(human == 0 && neutral == 0) // win monsters
 			{
 				Utils.broadcast(
-				"&d&m-------&d\u2764&m-------",
+				"&d&m       &d\u2764&m       ",
 				"&cLes monstres ont gagné !",
-				"&d&m-------&d\u2764&m-------");
+				"&d&m       &d\u2764&m       ");
 				end();
 			}
 			else if(human == 0 && monsters == 0 && neutral == 2) // win neutral
@@ -311,17 +311,17 @@ public class DeathTask extends BukkitRunnable
 				if(integrity != null)
 				{
 					Utils.broadcast(
-					"&d&m-------&d\u2764&m-------",
+					"&d&m       &d\u2764&m       ",
 					"&c" + integrity.getName() + " et " + GameManager.ally + " ont gagné !",
-					"&d&m-------&d\u2764&m-------");
+					"&d&m       &d\u2764&m       ");
 					end();
 				}
 				else if(neutral == 1)
 				{
 					Utils.broadcast(
-					"&d&m-------&d\u2764&m-------",
+					"&d&m       &d\u2764&m       ",
 					"&c" + Bukkit.getPlayer(GameManager.playing.get(0) + " a gagné !"),
-					"&d&m-------&d\u2764&m-------");
+					"&d&m       &d\u2764&m       ");
 					end();
 				}
 			}

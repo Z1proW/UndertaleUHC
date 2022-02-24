@@ -145,7 +145,7 @@ public class Utils
 		
 		sendMessage(p,
 		"",
-		"&9&m-------&9\u2764&m-------",
+		"&9&m       &9\u2764&m       ",
 		"&6Vous êtes &o" + role.getName() + "&r&6 !");
 		
 		switch(role.getTeam())
@@ -227,7 +227,7 @@ public class Utils
 			case UNDYNE:
 				sendMessage(p, "&6Vous activez automatiquement le 'mode armure', c'est à dire Résistance II quand vous passez en dessous de 2 coeurs"); break;
 		}
-		sendMessage(p, "&9&m-------&9\u2764&m-------");
+		sendMessage(p, "&9&m       &9\u2764&m       ");
 	}
 	
 	public static Role getRole(Player p)
