@@ -17,7 +17,9 @@ public class StartCMD implements CommandExecutor
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
-		if(!(sender instanceof Player) || !gameManager.isState(GameState.WAITING) || !sender.isOp()) return true;
+		if(!(sender instanceof Player) || !sender.isOp()) return true;
+		
+		if(!gameManager.isState(GameState.WAITING)) {((Player)sender).sendMessage("The game already started"); return true;}
 		
 		gameManager.setState(GameState.STARTING);
 		return true;

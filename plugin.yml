@@ -25,15 +25,9 @@ commands:
   spare:
     description: Command for Frisk
     usage: /spare <joueur>
-  ally:
-    description: Command for integrity
-    usage: /ally <joueur>
   revive:
     description: Command for Kindness
     usage: /revive
   sympa:
     description: Command for Toriel
     usage: /sympa <joueur>
-  ausculter:
-    description: Command for Alphys
-    usage: /ausculter <joueur>

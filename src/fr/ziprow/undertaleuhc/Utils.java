@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -20,9 +21,13 @@ import org.bukkit.potion.PotionEffect;
 import fr.ziprow.undertaleuhc.enums.Role;
 import fr.ziprow.undertaleuhc.enums.Team;
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
-public class Utils
+public final class Utils
 {
+	
 	public static void clear(Player p)
 	{
 		PlayerInventory inv = p.getInventory();
@@ -121,7 +126,7 @@ public class Utils
 		return book;
     }
     
-	public static void nameItem(ItemStack item, String name, String... lore)
+	public static ItemStack nameItem(ItemStack item, String name, String... lore)
     {
     	ItemMeta meta = item.getItemMeta();
     	if(name != null) meta.setDisplayName(name);
@@ -131,6 +136,7 @@ public class Utils
     		for(String s : lore) list.add(s);
     		meta.setLore(list);
     	}
+		return item;
     }
 	
 	public static String[] lore(String... lore) {return lore;}
@@ -145,7 +151,7 @@ public class Utils
 		
 		sendMessage(p,
 		"",
-		"&9&m       &9\u2764&m       ",
+		"&9&m-------&9\u2764&m-------",
 		"&6Vous êtes &o" + role.getName() + "&r&6 !");
 		
 		switch(role.getTeam())
@@ -227,7 +233,7 @@ public class Utils
 			case UNDYNE:
 				sendMessage(p, "&6Vous activez automatiquement le 'mode armure', c'est à dire Résistance II quand vous passez en dessous de 2 coeurs"); break;
 		}
-		sendMessage(p, "&9&m       &9\u2764&m       ");
+		sendMessage(p, "&9&m-------&9\u2764&m-------");
 	}
 	
 	public static Role getRole(Player p)
@@ -240,4 +246,19 @@ public class Utils
 		for(UUID u : GameManager.playing) if(GameManager.rolesMap.get(u).equals(r)) return Bukkit.getPlayer(u);
 		return null;
 	}
+	
+	@SuppressWarnings("rawtypes")
+    public static void sendActionBar(Player player, String message)
+    {
+        IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a((String)("{\"text\": \"" + message + "\"}"));
+        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
+        ((CraftPlayer)player).getHandle().playerConnection.sendPacket((Packet)ppoc);
+    }
+	
+	public static boolean isSimilar(ItemStack i, ItemStack i2)
+	{
+		i.setDurability((short)0); i2.setDurability((short)0);
+		return i.isSimilar(i2);
+	}
+	
 }

@@ -95,10 +95,7 @@ public class GameManager
 			case EP1:
 				
 				for(Player p : Bukkit.getOnlinePlayers())
-				{
 					p.setGameMode(GameMode.SURVIVAL);
-					Utils.warnPlayer(p, "desactivez votre mod de coordonnees !");
-				}
 				
 				break;
 				
@@ -274,7 +271,6 @@ public class GameManager
 		world.setGameRuleValue("logAdminCommands", 		"false"	);
 		world.setGameRuleValue("showDeathMessages", 	"false"	);
 		world.setGameRuleValue("sendCommandFeedback", 	"false"	);
-		world.setGameRuleValue("reducedDebugInfo", 		"true"	);
 		world.setGameRuleValue("doEntityDrops", 		"false"	);
 		world.setTime(1000);
 		world.setPVP(false);

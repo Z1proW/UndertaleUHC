@@ -2,7 +2,6 @@ package fr.ziprow.undertaleuhc.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,7 +35,7 @@ public class EpisodesTask extends BukkitRunnable
 		{
 			episode++;
 			eptimer = defaultTimer;
-			Utils.broadcast("&5&m       &5Episode " + episode + "&m       ");
+			Utils.broadcast("&5&m-------&5Episode " + episode + "&m-------");
 			for(Player p : Bukkit.getOnlinePlayers()) p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
 			switch(episode)
 			{
@@ -60,13 +59,12 @@ public class EpisodesTask extends BukkitRunnable
 				roleS = ChatColor.stripColor(GameManager.rolesMap.get(p.getUniqueId()).getName());
 			int playerSize = GameManager.playing.size();
 			int borderSize = (int) p.getWorld().getWorldBorder().getSize();
-			int center = (int)(p.getLocation().distance(new Location(p.getWorld(), 0, 0, 0)) / 100) * 100;
 			
-			createBoard(p, episode, playerSize, roleS, getGroupSize(playerSize), eptimer, borderSize, center);
+			createBoard(p, episode, playerSize, roleS, getGroupSize(playerSize), eptimer, borderSize);
 		}
 	}
 	
-	private void createBoard(Player p, int episode, int playerSize, String roleS, int groupSize, int timer, int borderSize, int center)
+	private void createBoard(Player p, int episode, int playerSize, String roleS, int groupSize, int timer, int borderSize)
 	{
 		int min = timer / 60;
 		int sec = timer % 60;
@@ -81,12 +79,11 @@ public class EpisodesTask extends BukkitRunnable
 		obj.setDisplayName		("UNDERTALE UHC");
 		Score l7 = obj.getScore	(""); l7.setScore(7);
 		Score l6 = obj.getScore	(Utils.color("&8>> &cEpisode: &r" + episode		)); l6.setScore(6);
-		Score l5 = obj.getScore	(Utils.color("&8>> &6Joueurs: &r" + playerSize	)); l5.setScore(5);
-		Score l4 = obj.getScore (Utils.color("&8>> &eRole: &r"	  + roleS		)); l4.setScore(4);
-		Score l3 = obj.getScore	(Utils.color("&8>> &aGroupes: &r" + groupSize	)); l3.setScore(3);
-		Score l2 = obj.getScore	(Utils.color("&8>> &bTemps: &r"   + time		)); l2.setScore(2);
-		Score l1 = obj.getScore	(Utils.color("&8>> &9Bordure: &r" + borderSize	)); l1.setScore(1);
-		Score l0 = obj.getScore	(Utils.color("&8>> &dCentre: &r"  + center		)); l0.setScore(0);
+		Score l5 = obj.getScore	(Utils.color("&8>> &eJoueurs: &r" + playerSize	)); l5.setScore(5);
+		Score l4 = obj.getScore (Utils.color("&8>> &aRole: &r"	  + roleS		)); l4.setScore(4);
+		Score l3 = obj.getScore	(Utils.color("&8>> &bGroupes: &r" + groupSize	)); l3.setScore(3);
+		Score l2 = obj.getScore	(Utils.color("&8>> &9Temps: &r"   + time		)); l2.setScore(2);
+		Score l1 = obj.getScore	(Utils.color("&8>> &dBordure: &r" + borderSize	)); l1.setScore(1);
 		
 		p.setScoreboard(board);
 	}

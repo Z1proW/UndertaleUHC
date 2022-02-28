@@ -20,13 +20,15 @@ public class RoleCMD implements CommandExecutor
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
-		if(!(sender instanceof Player) || gameManager.isState(GameState.WAITING, GameState.WAITING, GameState.PLAYING) || args.length != 1) return true;
+		if(!(sender instanceof Player) || gameManager.isState(GameState.WAITING, GameState.WAITING, GameState.PLAYING)) return true;
+		
+		if(args.length != 1) return false;
 		
 		Player p = (Player)sender;
 		Role role = null;
 		
 		for(Role r : Role.values()) if(ChatColor.stripColor(r.getName()).equalsIgnoreCase(args[0])) role = r;
-		if(role == null) return true;
+		if(role == null) {p.sendMessage("Wrong role name"); return true;}
 		GameManager.rolesMap.replace(p.getUniqueId(), role);
 		Utils.informPlayer(p, "Vous êtes maintenant : " + role.getName());
 		return true;

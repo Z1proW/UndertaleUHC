@@ -161,17 +161,16 @@ public class ItemEvent implements Listener
 		if(!(event.getProjectile() instanceof Arrow)) return;
 		
 		ItemStack bow = event.getBow();
+		Arrow arrow = (Arrow)event.getProjectile();
 		
 		if(bow.getItemMeta().equals(Item.CHAOS_BUSTER.getItem().getItemMeta()))
 		{
-			Arrow arrow = (Arrow)event.getProjectile();
 			new LightningArrowTask(arrow).runTaskTimer(main, 0, 1);
 			return;
 		}
 		
 		if(bow.getItemMeta().equals(Item.CUPID_BOW.getItem().getItemMeta()))
 		{
-			Arrow arrow = (Arrow)event.getProjectile();
 			Vector v = arrow.getVelocity();
 			event.setProjectile(null);
 			Potion potion = new Potion(PotionType.INSTANT_HEAL, 2);
@@ -186,7 +185,6 @@ public class ItemEvent implements Listener
 		
 		if(bow.getItemMeta().equals(Item.DARK_BOW.getItem().getItemMeta()))
 		{
-			Arrow arrow = (Arrow)event.getProjectile();
 			Vector v = arrow.getVelocity();
 			event.setProjectile(null);
 			Potion potion = new Potion(PotionType.INSTANT_DAMAGE, 2);
@@ -201,7 +199,7 @@ public class ItemEvent implements Listener
 		
 		if(bow.getItemMeta().equals(Item.RAPID_BOW.getItem().getItemMeta()))
 		{
-			event.getProjectile().setVelocity(event.getProjectile().getVelocity().multiply(1.6));
+			arrow.setVelocity(arrow.getVelocity().multiply(1.6));
 			return;
 		}
 	}
