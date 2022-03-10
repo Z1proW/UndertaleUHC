@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -344,4 +345,14 @@ public class ScenariosEvent implements Listener
 		&& event.getCause().equals(DamageCause.FALL))
 			event.setCancelled(true);
 	}
+	
+	@EventHandler
+	public void StrengthNerf(EntityDamageByEntityEvent event)
+	{
+		if(!(event.getDamager() instanceof Player)) return;
+		
+		if(((Player)event.getDamager()).hasPotionEffect(PotionEffectType.INCREASE_DAMAGE))
+			event.setDamage(event.getDamage() * .6);
+	}
+	
 }
