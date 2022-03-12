@@ -77,7 +77,7 @@ public class ScenariosEvent implements Listener
 	{
 		event.getBlock().setType(Material.AIR);
 		
-		if(Math.random() * 100.0D < 4)
+		if(Math.random() * 100. < 4)
 			event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.APPLE));
 	}
 	
@@ -314,7 +314,7 @@ public class ScenariosEvent implements Listener
 			case GRAVEL:
 				block.setType(Material.AIR);
 				Material newMaterial = Material.FLINT;
-				if (Math.random() * 100.0D < 50)
+				if (Math.random() * 100. < 50)
 					newMaterial = Material.GRAVEL;
 				event.getBlock().getWorld().dropItemNaturally(loc, new ItemStack(newMaterial));
 				break;
@@ -352,7 +352,7 @@ public class ScenariosEvent implements Listener
 		if(!(event.getDamager() instanceof Player)) return;
 		
 		if(((Player)event.getDamager()).hasPotionEffect(PotionEffectType.INCREASE_DAMAGE))
-			event.setDamage(event.getDamage() * .6);
+			event.setDamage(.6 * event.getDamage());
 	}
 	
 }
