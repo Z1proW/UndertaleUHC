@@ -1,5 +1,6 @@
 package fr.ziprow.undertaleuhc.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -8,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.PlayerInventory;
-
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.Main;
 import fr.ziprow.undertaleuhc.enums.GameState;
@@ -34,11 +34,18 @@ public class DeathEvent implements Listener
 		inv = player.getInventory();
 		
 		event.setDeathMessage("");
-		player.setHealth(player.getMaxHealth());
-		player.setGameMode(GameMode.SPECTATOR);
+		player.setBedSpawnLocation(loc, true);
+		Bukkit.getScheduler().runTaskLater(main, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				player.setGameMode(GameMode.SPECTATOR);
+			}
+		}, 10);
 		player.getWorld().playSound(loc, Sound.VILLAGER_DEATH, 1.0f, 1.0f);
 		
-		DeathTask task = new DeathTask(this, gameManager);
+		DeathTask task = new DeathTask(gameManager, player, loc, inv);
 		task.runTaskTimer(main, 0, 20);
 	}
 }

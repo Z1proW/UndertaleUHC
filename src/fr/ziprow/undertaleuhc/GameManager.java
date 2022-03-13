@@ -313,7 +313,8 @@ public class GameManager
 		Collections.shuffle(playing);
 		
 		for(int i = 0; i < playing.size(); i++) rolesMap.put(playing.get(i), roles.get(i));
-		//GameManager.rolesMap.replace(Bukkit.getPlayer("BL4SS").getUniqueId(), Role.INTEGRITY);
+		//GameManager.rolesMap.replace(Bukkit.getPlayer("Z1proW").getUniqueId(), Role.SANS);
+		//GameManager.rolesMap.replace(Bukkit.getPlayer("Sudemax").getUniqueId(), Role.PAPYRUS);
 		// integrity ally
 		if(Utils.getPlayer(Role.INTEGRITY) != null)
 		{

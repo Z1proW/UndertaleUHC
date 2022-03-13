@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,6 +28,8 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public final class Utils
 {
+	
+	public static String line = "&m" + StringUtils.repeat(' ', 12);
 	
 	public static void clear(Player p)
 	{
@@ -151,7 +154,7 @@ public final class Utils
 		
 		sendMessage(p,
 		"",
-		"&9&m       &9\u2764&m       ",
+		"&9" + line + "&9\u2764" + line,
 		"&6Vous êtes &o" + role.getName() + "&r&6 !");
 		
 		switch(role.getTeam())
@@ -161,8 +164,13 @@ public final class Utils
 			case MONSTER:
 				sendMessage(p, "&6Vous devez gagner avec les monstres !"); break;
 			case NEUTRAL:
-				if(integrity != null && GameManager.ally != null && GameManager.ally.equals(p.getUniqueId())) sendMessage(p, "&6Vous devez gagner avec &o" + integrity.getName() + " &r&6!");
-				else if(role.equals(Role.INTEGRITY) && GameManager.ally != null) sendMessage(p, "&6Vous devez choisir avec qui vous devez gagner !");
+				if(integrity != null && GameManager.ally != null && GameManager.ally.equals(p.getUniqueId()))
+					sendMessage(p, "&6Vous devez gagner avec &o" + integrity.getName() + " &r&6 qui est " + Utils.getRole(integrity).getName() + " &r&6et votre vie est liee !");
+				else if(role.equals(Role.INTEGRITY) && GameManager.ally != null)
+				{
+					Player allyP = Bukkit.getPlayer(GameManager.ally);
+					sendMessage(p, "&6Vous devez gagner avec &o" + allyP.getName() + " &r&6 qui est " + Utils.getRole(allyP).getName() + " &r&6et votre vie est liee !");
+				}
 				else sendMessage(p, "&6Vous devez gagner tout seul !"); break;
 		}
 		
@@ -179,7 +187,7 @@ public final class Utils
 			case ASRIEL:
 				sendMessage(p, "&6Quand vous serez le dernier monstre en vie vous vous transformerez en Ange de la mort"); break;
 			case BRAVERY:
-				sendMessage(p, "&6Vous devez éliminer un monstre avant l'épisode 5 sinon vous perdrez 2 coeurs permanents"); break;
+				sendMessage(p, "&6Vous devez éliminer un monstre avant l'épisode 5,", "&6sinon vous perdrez 2 coeurs permanents"); break;
 			case CHARA:
 				sendMessage(p, "&6Vous pouvez utiliser une épée tranchant IV"); break;
 			case DETERMINATION:
@@ -187,7 +195,7 @@ public final class Utils
 			case FLOWEY:
 				sendMessage(p, "&6Vous devez gagner avec les monstres"); break;
 			case FRISK:
-				sendMessage(p, "&6Vous devez choisir un joueur à  épargner, cependant si il meurt vous perdrez force"); break;
+				sendMessage(p, "&6Vous devez choisir un joueur à  épargner,", "&6cependant si il meurt vous perdrez force"); break;
 			case HATRED:
 				sendMessage(p, "&6Vous perdrez Force I si &fAmour &6Meurt"); break;
 			case INTEGRITY:
@@ -203,19 +211,21 @@ public final class Utils
 			case LOVE:
 				sendMessage(p, "&6Vous perdrez Résistance I si &8Haine &6Meurt"); break;
 			case METTATON:
-				sendMessage(p, "&6A chaque épisode vous envoyez un quizz au joueurs proches, si personne ne trouve la réponse vous deviendrez Mettaton EX"); break;
+				sendMessage(p, "&6A chaque épisode vous envoyez un quizz au joueurs proches,", "&6si personne ne trouve la réponse vous deviendrez Mettaton EX"); break;
 			case METTATON_EX:
-				sendMessage(p, "&6Vous prennez des dégâts quand vous êtes dans l'eau, si vous tuez un monstre vous vous transformez en &fMettaton NEO"); break;
+				sendMessage(p, "&6Vous prennez des dégâts quand vous êtes dans l'eau,", "&6si vous tuez un monstre vous vous transformez en &fMettaton NEO"); break;
 			case METTATON_NEO:
-				sendMessage(p, "&6Vous prennez toujours des dégâts dans l'eau, mais vous avez Résistance I"); break;
+				sendMessage(p, "&6Vous prennez toujours des dégâts dans l'eau,", "&6mais vous avez Résistance I"); break;
 			case NAPSTABLOOK:
 				sendMessage(p,
 				"&6Deux fois dans la partie, vous pouvez enlever votre armure",
 				"&6Vous obtiendrez Invisibilité I, Sauts améliorés II, Vitesse II et Faiblesse I"); break;
 			case PAPYRUS:
 				String sansPlayerName = null;
-				for(UUID u : GameManager.playing) if(GameManager.rolesMap.get(u).equals(Role.SANS) || GameManager.rolesMap.get(u).equals(Role.SANS_GLOWING_EYE)) sansPlayerName = Bukkit.getPlayer(u).getName();
-				sendMessage(p, "&6Vous avez 3 coeurs d'absorption, et &fSans &6est &o" + sansPlayerName); break;
+				for(UUID u : GameManager.playing)
+					if(GameManager.rolesMap.get(u).equals(Role.SANS) || GameManager.rolesMap.get(u).equals(Role.SANS_GLOWING_EYE))
+						sansPlayerName = Bukkit.getPlayer(u).getName();
+				sendMessage(p, "&6Vous avez 3 coeurs d'absorption,", "&6et &fSans &6est &o" + sansPlayerName); break;
 			case PATIENCE:
 				sendMessage(p, "&6Gagne 1 coeur permanent à  l'épisode 4, et 7"); break;
 			case PERSEVERANCE:
@@ -225,15 +235,15 @@ public final class Utils
 			case SANS:
 				String papyrusPlayerName = null;
 				for(UUID u : GameManager.playing) if(GameManager.rolesMap.get(u).equals(Role.PAPYRUS)) papyrusPlayerName = Bukkit.getPlayer(u).getName();
-				sendMessage(p, "&6Vous activez le mode 'Oeil brillant' quand &fPapyrus &6meurt, &fPapyrus &6est &o" + papyrusPlayerName); break;
+				sendMessage(p, "&6Vous activez le mode 'Oeil brillant' quand &fPapyrus &6meurt,", "&6&fPapyrus &6est &o" + papyrusPlayerName); break;
 			case SANS_GLOWING_EYE:
-				sendMessage(p, "&6Vous avez maintenant le 'Gaster Blaster', vengez votre frère &fPapyrus"); break;
+				sendMessage(p, "&6Vous avez maintenant le 'Gaster Blaster',", "&6vengez votre frère &fPapyrus"); break;
 			case TORIEL:
-				sendMessage(p, "&6Vous devez 'sympathiser' avec un joueur, si celui-ci meurt vous perdrez vos effets"); break;
+				sendMessage(p, "&6Vous devez 'sympathiser' avec un joueur,", "&6si celui-ci meurt vous perdrez vos effets"); break;
 			case UNDYNE:
-				sendMessage(p, "&6Vous activez automatiquement le 'mode armure', c'est à dire Résistance II quand vous passez en dessous de 2 coeurs"); break;
+				sendMessage(p, "&6Vous activez automatiquement le 'mode armure':", "&6Résistance II quand vous passez en dessous de 2 coeurs"); break;
 		}
-		sendMessage(p, "&9&m       &9\u2764&m       ");
+		sendMessage(p, "&9" + line + "&9\u2764" + line);
 	}
 	
 	public static Role getRole(Player p)

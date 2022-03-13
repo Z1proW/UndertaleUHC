@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -23,7 +24,6 @@ import fr.ziprow.undertaleuhc.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
 import fr.ziprow.undertaleuhc.enums.Team;
-import fr.ziprow.undertaleuhc.events.DeathEvent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -31,8 +31,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class DeathTask extends BukkitRunnable
 {
-	private DeathEvent deathListener;
 	private GameManager gameManager;
+	private Player player;
+	private Location loc;
+	private Inventory inv;
 	
 	public int timer = 10;
 	public static boolean revive = true;
@@ -40,10 +42,12 @@ public class DeathTask extends BukkitRunnable
 	public static boolean hasRespawn = true;
 	public Player kindness;
 
-	public DeathTask(DeathEvent deathListener, GameManager gameManager)
+	public DeathTask(GameManager gameManager, Player player, Location loc, PlayerInventory inv)
 	{
-		this.deathListener = deathListener;
 		this.gameManager = gameManager;
+		this.player = player;
+		this.loc = loc;
+		this.inv = inv;
 	}
 	
 	@Override
@@ -61,14 +65,14 @@ public class DeathTask extends BukkitRunnable
 					{
 						Utils.warnPlayer(p, "Vous avez une deuxième vie");
 						
-						deathListener.player.setGameMode(GameMode.SURVIVAL);
+						player.setGameMode(GameMode.SURVIVAL);
 						// On téléporte le joueur de façon aléatoire
 						Random random = new Random();
 						int x = random.nextInt(200) - 100;
 						int z = random.nextInt(200) - 100;
-						Location loc = new Location(deathListener.player.getWorld(), x, deathListener.player.getWorld().getHighestBlockYAt(x, z) + 2, z);
+						Location loc = new Location(player.getWorld(), x, player.getWorld().getHighestBlockYAt(x, z) + 2, z);
 						loc.getChunk().load(true);
-						deathListener.player.teleport(loc);
+						player.teleport(loc);
 						
 						hasRespawn = false;
 						
@@ -78,7 +82,7 @@ public class DeathTask extends BukkitRunnable
 				}
 			}
 			
-			Utils.warnPlayer(deathListener.player, "Ne quittez pas, vous pourriez ressusciter");
+			Utils.warnPlayer(player, "Ne quittez pas, vous pourriez ressusciter");
 			
 			revive = false;
 			
@@ -88,10 +92,10 @@ public class DeathTask extends BukkitRunnable
 				if(p != null && GameManager.rolesMap.get(p.getUniqueId()).equals(Role.KINDNESS)) kindness = p;
 			}
 			
-			if(!deathListener.player.equals(kindness) && hasRevive)
+			if(!player.equals(kindness) && hasRevive)
 			{
 				// envoie un message à gentillesse pour revive
-				TextComponent reviveMsg = new TextComponent(Utils.color("&o" + deathListener.player.getName() + " &r&6vient de mourir, voulez vous le ressusciter ?"));
+				TextComponent reviveMsg = new TextComponent(Utils.color("&o" + player.getName() + " &r&6vient de mourir, voulez vous le ressusciter ?"));
 				reviveMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.color("&2Oui")).create()));
 				reviveMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/revive"));
 				if(kindness != null)
@@ -102,25 +106,25 @@ public class DeathTask extends BukkitRunnable
 			}
 		}
 		
-		if(revive)
+		if(revive && kindness != null)
 		{
 			revive = false;
 			
 			if(hasRevive)
 			{
-				if(!deathListener.player.equals(kindness))
+				if(!player.equals(kindness))
 				{
 					hasRevive = false;
 					
 					Utils.informPlayer(kindness, "Vous avez ressuscité ce joueur");
-					deathListener.player.setGameMode(GameMode.SURVIVAL);
+					player.setGameMode(GameMode.SURVIVAL);
 					// On téléporte le joueur de façon aléatoire
 					Random random = new Random();
 					int x = random.nextInt(200) - 100;
 					int z = random.nextInt(200) - 100;
-					Location loc = new Location(deathListener.player.getWorld(), x, deathListener.player.getWorld().getHighestBlockYAt(x, z) + 2, z);
+					Location loc = new Location(player.getWorld(), x, player.getWorld().getHighestBlockYAt(x, z) + 2, z);
 					loc.getChunk().load(true);
-					deathListener.player.teleport(loc);
+					player.teleport(loc);
 					
 					cancel();
 					return;
@@ -134,7 +138,7 @@ public class DeathTask extends BukkitRunnable
 		{
 			revive = true;
 			
-			kill(deathListener.player, deathListener.inv, deathListener.loc);
+			kill(player, inv, loc);
 		}
 		timer--;
 	}
@@ -162,10 +166,10 @@ public class DeathTask extends BukkitRunnable
 			
 			// On affiche le message de mort
 			Utils.broadcast(
-					"&c&m       &c\u2764&m       ",
+					"&c" + Utils.line + "&c\u2764" + Utils.line,
 					"&2" + p.getName() + " est mort !",
 					"&2Il était &o" + role.getName() + "&r&2.",
-					"&c&m       &c\u2764&m       ");
+					"&c" + Utils.line + "&c\u2764" + Utils.line);
 			
 			// On enlève force à Frisk si le joueur épargné est mort
 			if(p.equals(Bukkit.getPlayer(GameManager.spared)))
@@ -192,7 +196,7 @@ public class DeathTask extends BukkitRunnable
 			}
 			
 			// Enlever les effets Amour/Haine
-			if(GameManager.rolesMap.get(p.getUniqueId()).equals(Role.LOVE))
+			if(Utils.getRole(p).equals(Role.LOVE))
 			{
 				Player hatred = Utils.getPlayer(Role.HATRED);
 				
@@ -202,7 +206,7 @@ public class DeathTask extends BukkitRunnable
 					Utils.informPlayer(hatred, "Vous avez perdu Force car Amour est mort");
 				}
 			}
-			else if(GameManager.rolesMap.get(p.getUniqueId()).equals(Role.HATRED))
+			else if(Utils.getRole(p).equals(Role.HATRED))
 			{
 				Player love = Utils.getPlayer(Role.LOVE);
 				
@@ -214,7 +218,7 @@ public class DeathTask extends BukkitRunnable
 			}
 			
 			// Si flowey tue détermination >> se transforme en Photoshop Flowey
-			if(GameManager.rolesMap.get(p.getUniqueId()).getColor().equals(ChatColor.RED))
+			if(Utils.getRole(p).getColor().equals(ChatColor.RED))
 			{
 				Player flowey = Utils.getPlayer(Role.FLOWEY);
 				
@@ -239,6 +243,20 @@ public class DeathTask extends BukkitRunnable
 						bravery.setMaxHealth(bravery.getMaxHealth() + 2);
 						Utils.informPlayer(bravery, "Vous avez tué un monstre donc vous avez gagné un coeur permanent");
 					}
+				}
+			}
+			
+			// Change Sans quand Papyrus meurt
+			if(Utils.getRole(p).equals(Role.PAPYRUS))
+			{
+				Player sans = Utils.getPlayer(Role.SANS);
+				
+				if(sans != null)
+				{
+					GameManager.rolesMap.replace(sans.getUniqueId(), Role.SANS_GLOWING_EYE);
+					Utils.informPlayer(sans, "Papyrus est mort donc vous avez l'Oeil Brillant");
+					Utils.info(sans);
+					Utils.getRole(sans).giveStuff(sans);
 				}
 			}
 			
@@ -281,28 +299,30 @@ public class DeathTask extends BukkitRunnable
 			}
 			
 			// Fin de game
-			if(monsters == 0 && neutral == 0) // win personne
+			String line = "&d" + Utils.line + "&d\u2764" + Utils.line;
+			
+			if(human == 0 && monsters == 0 && neutral == 0) // win personne
 			{
 				Utils.broadcast(
-				"&d&m       &d\u2764&m       ",
+				line,
 				"&cPersonne n'a gagné !",
-				"&d&m       &d\u2764&m       ");
+				line);
 				end();
 			}
 			else if(monsters == 0 && neutral == 0) // win humains
 			{
 				Utils.broadcast(
-				"&d&m       &d\u2764&m       ",
+				line,
 				"&cLes humains ont gagné !",
-				"&d&m       &d\u2764&m       ");
+				line);
 				end();
 			}
 			else if(human == 0 && neutral == 0) // win monsters
 			{
 				Utils.broadcast(
-				"&d&m       &d\u2764&m       ",
+				line,
 				"&cLes monstres ont gagné !",
-				"&d&m       &d\u2764&m       ");
+				line);
 				end();
 			}
 			else if(human == 0 && monsters == 0 && neutral == 2) // win neutral
@@ -311,19 +331,19 @@ public class DeathTask extends BukkitRunnable
 				if(integrity != null)
 				{
 					Utils.broadcast(
-					"&d&m       &d\u2764&m       ",
+					line,
 					"&c" + integrity.getName() + " et " + GameManager.ally + " ont gagné !",
-					"&d&m       &d\u2764&m       ");
+					line);
 					end();
 				}
-				else if(neutral == 1)
-				{
-					Utils.broadcast(
-					"&d&m       &d\u2764&m       ",
-					"&c" + Bukkit.getPlayer(GameManager.playing.get(0) + " a gagné !"),
-					"&d&m       &d\u2764&m       ");
-					end();
-				}
+			}
+			else if(human == 0 && monsters == 0 && neutral == 1)
+			{
+				Utils.broadcast(
+				line,
+				"&c" + Bukkit.getPlayer(GameManager.playing.get(0) + " a gagné !"),
+				line);
+				end();
 			}
 		}
 		cancel();

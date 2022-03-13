@@ -3,6 +3,7 @@ package fr.ziprow.undertaleuhc.tasks;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -24,7 +25,7 @@ public class ShareHealth extends BukkitRunnable
 		Player integrity = Bukkit.getPlayer(integrityUUID);
 		Player ally = Bukkit.getPlayer(allyUUID);
 		
-		if(integrity == null || ally == null || integrity.isDead() || ally.isDead()) cancel();
+		if(integrity == null || ally == null) cancel();
 		
 		if(firstLoop)
 		{
@@ -34,11 +35,23 @@ public class ShareHealth extends BukkitRunnable
 			integrity.setMaxHealth(maxHealth); ally.setMaxHealth(maxHealth);
 			integrity.setHealth(health); ally.setHealth(health);
 			
+			Utils.informPlayer(ally, "");
+			
 			firstLoop = false;
 		}
 		else
 		{
-			if(integrity.getMaxHealth() != maxHealth || ally.getMaxHealth() != maxHealth)
+			if(integrity.getGameMode().equals(GameMode.SPECTATOR))
+			{
+				ally.setHealth(0);
+				cancel();
+			}
+			else if(ally.getGameMode().equals(GameMode.SPECTATOR))
+			{
+				integrity.setHealth(0); 
+				cancel();
+			}
+			else if(integrity.getMaxHealth() != maxHealth || ally.getMaxHealth() != maxHealth)
 			{
 				maxHealth = integrity.getMaxHealth() + ally.getMaxHealth() - maxHealth;
 				integrity.setMaxHealth(maxHealth); ally.setMaxHealth(maxHealth);
@@ -46,7 +59,6 @@ public class ShareHealth extends BukkitRunnable
 			else if(integrity.getHealth() != health || ally.getHealth() != health)
 			{
 				health = integrity.getHealth() + ally.getHealth() - health;
-				if(health < 0) health = 0;
 				integrity.setHealth(health); ally.setHealth(health);
 			}
 		}
