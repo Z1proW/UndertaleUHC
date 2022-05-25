@@ -1,0 +1,351 @@
+soul:
+  red:
+    dura: 1
+    name: "Ame Rouge"
+    lore:
+      - "Force I - 3:00"
+
+  cyan:
+    dura: 12
+    name: "Ame Cyan"
+    lore:
+      - "Résistance I - 5:00"
+      - "Lenteur I - 5:00"
+      - "Fatigue I - 5:00"
+
+  orange:
+    dura: 14
+    name: "Ame Orange"
+    lore:
+      - "Résistance au feu I - 5:00"
+      - "Vitesse I - 3:00"
+
+  blue:
+    dura: 4
+    name: "Ame Bleue"
+    lore:
+      - "Résistance I - 3:00"
+
+  magenta:
+    dura: 13
+    name: "Ame Magenta"
+    lore:
+      - "Bonus de vie I - 5:00"
+
+  green:
+    dura: 10
+    name: "Ame Verte"
+    lore:
+      - "Régénération I - 0:05"
+
+  yellow:
+    dura: 11
+    name: "Ame Jaune"
+    lore:
+      - "Faiblesse I - 1:00"
+      - "Boost en avant - préparez vous à MLG"
+
+  white:
+    dura: 15
+    name: "Ame Blanche"
+    lore:
+      - "Résistance I - 5:00"
+
+  black:
+    dura: 0
+    name: "Ame Noire"
+    lore:
+      - "Force I - 5:00"
+
+book:
+  realKnife:
+    name: "Vrai couteau"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 3
+
+  stick:
+    name: "Bâton"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  toyKnife:
+    name: "Couteau en plastique"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  toughGlove:
+    name: "Gant du maraud"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  balletShoes:
+    name: "Ballerines"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  tornNotebook:
+    name: "Calepin déchiré"
+    enchants:
+      - ARROW_FIRE
+    levels:
+      - 1
+
+  burntPan:
+    name: "Poêle carbonisée"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  emptyGun:
+    name: "Pistolet vide"
+    enchants:
+      - ARROW_FIRE
+    levels:
+      - 1
+
+  revigoratingStrength:
+    name: "Force revigorante"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+  evilEssence:
+    name: "Essence néfaste"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 3
+
+  horns:
+    name: "Cornes"
+    enchants:
+      - DAMAGE_ALL
+    levels:
+      - 1
+
+  strongFire:
+    name: "Feu ardent"
+    enchants:
+      - ARROW_FIRE
+    levels:
+      - 1
+
+  warriorHelmet:
+    name: "Casque de guerrier"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1
+
+  bone:
+    name: "Os"
+    enchants:
+      - KNOCKBACK
+    levels:
+      - 2
+
+  blouse:
+    name: "Blouse"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1
+
+  ironBody:
+    name: "Corps de fer"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+  cape:
+    name: "Cape"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+potion:
+  adrenalineRush:
+    name: "Poussée d'adrénaline"
+    effects:
+      - SPEED
+      - POISON
+    durations:
+      - 600
+      - 80
+    amplifiers:
+      - 1
+      - 0
+    ambients:
+      - false
+      - false
+    particles:
+      - false
+      - false
+
+item:
+  heartLocket:
+    material: "DIAMOND_CHESTPLATE"
+    name: "Médaillon coeur"
+    lore:
+      - "C'est le médaillon du Premier Humain !"
+      - "Il est écrit dessus : 'Best Friends Forever'"
+
+  bandage:
+    material: "GOLDEN_APPLE"
+    name: "Bandage"
+
+  fadedRibbon:
+    material: "IRON_HELMET"
+    name: "Ruban délavé"
+    lore:
+      - "C'est le ruban de Patience !"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+  manlyBandanna:
+    material: "IRON_HELMET"
+    name: "Bandana viril"
+    lore:
+      - "C'est le bandana de Bravoure !"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+  oldTutu:
+    material: "IRON_LEGGINGS"
+    name: "Vieux tutu"
+    lore:
+      - "C'est le tutu d'Integrité !"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 2
+
+  cloudyGlasses:
+    material: "IRON_HELMET"
+    name: "Lunettes sales"
+    lore:
+      - "C'est les lunettes de Persévérence !"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1
+
+  stainedApron:
+    material: "DIAMOND_CHESTPLATE"
+    name: "Tablier tâché"
+    lore:
+      - "C'est le tablier de Gentillesse !"
+    enchants:
+
+  cowboyHat:
+    material: "IRON_HELMET"
+    name: "Chapeau de Cow-boy"
+    lore:
+      - "C'est le chapeau de Justice !"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1
+
+  cupidBow:
+    material: "BOW"
+    dura: 383
+    name: "Piqûre d'endorphine"
+    lore:
+      - "Envoie une potion de soin II !"
+
+  darkBow:
+    material: "BOW"
+    dura: 383
+    name: "Piqûre ténébreuse"
+    lore:
+      - "Envoie une potion de dégâts II !"
+
+  friendlinessPellets:
+    material: "BOW"
+    name: "Pétales d'amitié"
+    enchants:
+      - ARROW_KNOCKBACK
+    levels:
+      - 1
+
+  chaosBuster:
+    material: "BOW"
+    dura: 100
+    name: "Briseur du chaos"
+    lore:
+      - "Provoque un coup de foudre lorsque la flèche atterrit !"
+
+  arrows:
+    material: "ARROW"
+    amount: 16
+
+  rapidBow:
+    material: "BOW"
+    dura: 11
+    name: "Arc rapide"
+    lore:
+      - "Envoie des flèches plus rapides !"
+
+  gasterBlaster:
+    material: "BOW"
+    name: "Gaster Blaster"
+    enchants:
+      - ARROW_DAMAGE
+      - ARROW_KNOCKBACK
+      - ARROW_FIRE
+    levels:
+      - 2
+      - 1
+      - 1
+
+  scarf:
+    material: "IRON_HELMET"
+    name: "Echarpe"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1
+
+  trident:
+    material: "DIAMOND_SWORD"
+    name: "Trident"
+    lore:
+      - "Cette arme est forgée d'une Ame humaine !"
+      - "10% de chances d'enflammer votre adversaire"
+    enchants:
+      - DAMAGE_ALL
+      - FIRE_ASPECT
+    levels:
+      - 4
+
+  tears:
+    material: "ARROW"
+    amount: 16
+    name: "Larmes"
+
+  dapperBlook:
+    material: "IRON_HELMET"
+    name: "Dapper Blook"
+    enchants:
+      - PROTECTION_ENVIRONMENTAL
+    levels:
+      - 1

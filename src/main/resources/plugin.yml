@@ -1,0 +1,42 @@
+name: UndertaleUHC
+version: '${project.version}'
+main: fr.ziprow.undertaleuhc.UndertaleUHC
+api-version: 1.8
+author: Z1proW
+
+commands:
+  start:
+    description: Start Undertale UHC
+    usage: /start
+
+  info:
+    description: Info on your role
+    usage: /info
+
+  role:
+    description: Change role mid-game
+    usage: /role <role>
+
+  items:
+    description: Give items from the plugin
+    usage: /items
+
+  choosechara:
+    description: Command for Determination
+    usage: /choosechara
+
+  choosefrisk:
+    description: Command for Determination
+    usage: /choosefrisk
+
+  spare:
+    description: Command for Frisk
+    usage: /spare <joueur>
+
+  revive:
+    description: Command for Kindness
+    usage: /revive
+
+  sympa:
+    description: Command for Toriel
+    usage: /sympa <joueur>
