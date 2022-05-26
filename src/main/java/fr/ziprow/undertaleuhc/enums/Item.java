@@ -1,6 +1,6 @@
 package fr.ziprow.undertaleuhc.enums;
 
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -126,7 +126,7 @@ public enum Item
 	
 	public ItemStack getItem()
 	{
-		ConfigurationSection sct = Main.get().getItemsConfig().getConfigurationSection(path);
+		ConfigurationSection sct = UndertaleUHC.get().getItemsConfig().getConfigurationSection(path);
 		
 		if(path.startsWith("soul"))
 		{

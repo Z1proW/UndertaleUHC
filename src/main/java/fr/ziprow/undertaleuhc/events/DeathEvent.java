@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.tasks.DeathTask;
 import org.bukkit.Bukkit;
@@ -16,13 +16,13 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class DeathEvent implements Listener
 {
-	private Main main;
+	private UndertaleUHC main;
 	private GameManager gameManager;
 	public Player player;
 	public Location loc;
 	public PlayerInventory inv;
 
-	public DeathEvent(Main main, GameManager gameManager) {this.main = main; this.gameManager = gameManager;}
+	public DeathEvent(UndertaleUHC main, GameManager gameManager) {this.main = main; this.gameManager = gameManager;}
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event)

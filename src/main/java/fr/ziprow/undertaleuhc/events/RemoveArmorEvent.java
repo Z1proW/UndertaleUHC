@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import fr.ziprow.undertaleuhc.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
@@ -17,10 +17,10 @@ import org.bukkit.potion.PotionEffectType;
 
 public class RemoveArmorEvent implements Listener
 {
-	private Main main;
+	private UndertaleUHC main;
 	private GameManager gameManager;
 	
-	public RemoveArmorEvent(Main main, GameManager gameManager)
+	public RemoveArmorEvent(UndertaleUHC main, GameManager gameManager)
 	{
 		this.main = main;
 		this.gameManager = gameManager;

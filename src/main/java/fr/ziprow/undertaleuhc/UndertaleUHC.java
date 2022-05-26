@@ -11,13 +11,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public class Main extends JavaPlugin
+public class UndertaleUHC extends JavaPlugin
 {
-	private static Main instance;
+	private static UndertaleUHC instance;
 	private GameManager game;
 	private YamlConfiguration itemsConfig;
 	
-	public static Main get() {return instance;}
+	public static UndertaleUHC get() {return instance;}
 	
 	public YamlConfiguration getItemsConfig() {return itemsConfig;}
 	

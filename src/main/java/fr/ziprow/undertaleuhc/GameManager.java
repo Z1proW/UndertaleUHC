@@ -20,7 +20,7 @@ import java.util.*;
 
 public class GameManager
 {
-	private Main main;
+	private UndertaleUHC main;
 	private PlayerEvent playerListener;
 	private GameState gameState = GameState.WAITING;
 	public static Map<UUID, Role> rolesMap = new HashMap<>();
@@ -30,7 +30,7 @@ public class GameManager
 	public static UUID sympathized;
 	private Player patience;
 	
-	public GameManager(Main main)
+	public GameManager(UndertaleUHC main)
 	{
 		this.main = main;
 		this.playerListener = new PlayerEvent(this);

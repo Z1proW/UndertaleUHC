@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import fr.ziprow.undertaleuhc.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Item;
@@ -50,7 +50,7 @@ import java.util.Map;
 
 public class ScenariosEvent implements Listener
 {
-	private Main main;
+	private UndertaleUHC main;
 	private GameManager gameManager;
 	
 	Map<Player, Integer> limitPerPlayer = new HashMap<>();
@@ -59,7 +59,7 @@ public class ScenariosEvent implements Listener
 	Enchantment fire = Enchantment.FIRE_ASPECT;
 	Enchantment power = Enchantment.ARROW_DAMAGE;
 	
-	public ScenariosEvent(Main main, GameManager gameManager) {this.main = main; this.gameManager = gameManager;}
+	public ScenariosEvent(UndertaleUHC main, GameManager gameManager) {this.main = main; this.gameManager = gameManager;}
 
 	@EventHandler
 	public void NoHorses(EntityMountEvent event) {event.setCancelled(true);}

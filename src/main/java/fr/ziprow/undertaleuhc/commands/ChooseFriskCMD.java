@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.commands;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import fr.ziprow.undertaleuhc.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
@@ -20,10 +20,10 @@ import java.util.UUID;
 
 public class ChooseFriskCMD implements CommandExecutor
 {
-	private Main main;
+	private UndertaleUHC main;
 	private GameManager gameManager;
 	
-	public ChooseFriskCMD(Main main, GameManager gameManager)
+	public ChooseFriskCMD(UndertaleUHC main, GameManager gameManager)
 	{
 		this.main = main;
 		this.gameManager = gameManager;

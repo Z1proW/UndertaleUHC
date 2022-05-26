@@ -1,6 +1,6 @@
 package fr.ziprow.undertaleuhc.events;
 
-import fr.ziprow.undertaleuhc.Main;
+import fr.ziprow.undertaleuhc.UndertaleUHC;
 import fr.ziprow.undertaleuhc.Utils;
 import fr.ziprow.undertaleuhc.enums.Item;
 import fr.ziprow.undertaleuhc.tasks.LightningArrowTask;
@@ -26,11 +26,11 @@ import org.bukkit.util.Vector;
 
 public class ItemEvent implements Listener
 {
-	private static Main main;
+	private static UndertaleUHC main;
 	
 	Enchantment fire = Enchantment.FIRE_ASPECT;
 	
-	public ItemEvent(Main main) {ItemEvent.main = main;}
+	public ItemEvent(UndertaleUHC main) {ItemEvent.main = main;}
 	
 	@EventHandler
 	public static void onRightClick(PlayerInteractEvent event)
