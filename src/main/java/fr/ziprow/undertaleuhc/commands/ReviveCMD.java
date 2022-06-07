@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.commands;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Utils;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
 import fr.ziprow.undertaleuhc.tasks.DeathTask;

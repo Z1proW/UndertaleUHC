@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.UndertaleUHC;
-import fr.ziprow.undertaleuhc.Utils;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.Item;
 import fr.ziprow.undertaleuhc.tasks.LightningArrowTask;
 import org.bukkit.Effect;

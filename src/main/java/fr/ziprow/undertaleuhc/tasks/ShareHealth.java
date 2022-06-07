@@ -1,7 +1,7 @@
 package fr.ziprow.undertaleuhc.tasks;
 
 import fr.ziprow.undertaleuhc.GameManager;
-import fr.ziprow.undertaleuhc.Utils;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.Role;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

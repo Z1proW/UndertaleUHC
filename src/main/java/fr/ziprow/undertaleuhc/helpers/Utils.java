@@ -1,5 +1,6 @@
-package fr.ziprow.undertaleuhc;
+package fr.ziprow.undertaleuhc.helpers;
 
+import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.enums.Role;
 import fr.ziprow.undertaleuhc.enums.Team;
 import net.md_5.bungee.api.ChatColor;

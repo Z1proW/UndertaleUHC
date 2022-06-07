@@ -2,7 +2,7 @@ package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.UndertaleUHC;
-import fr.ziprow.undertaleuhc.Utils;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
 import org.bukkit.Bukkit;

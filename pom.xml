@@ -39,7 +39,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>D:\Z1proW\Documents\localhost - UU\plugins\UndertaleUHC.jar</outputFile>
+                            <outputFile>C:\Users\z1pro\Documents\localhost - UU\plugins\UndertaleUHC.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

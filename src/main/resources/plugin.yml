@@ -5,38 +5,14 @@ api-version: 1.8
 author: Z1proW
 
 commands:
-  start:
-    description: Start Undertale UHC
-    usage: /start
+  uuhc:
+    description:Main command for UndertaleUHC. Use /uuhc help for more info
 
-  info:
-    description: Info on your role
-    usage: /info
+permissions:
+  template.user:
+    description: Allows player to use the plugin's user features
+    default: true
 
-  role:
-    description: Change role mid-game
-    usage: /role <role>
-
-  items:
-    description: Give items from the plugin
-    usage: /items
-
-  choosechara:
-    description: Command for Determination
-    usage: /choosechara
-
-  choosefrisk:
-    description: Command for Determination
-    usage: /choosefrisk
-
-  spare:
-    description: Command for Frisk
-    usage: /spare <joueur>
-
-  revive:
-    description: Command for Kindness
-    usage: /revive
-
-  sympa:
-    description: Command for Toriel
-    usage: /sympa <joueur>
+  template.admin:
+    description: Allows player to use the plugin's admin features
+    default: op
