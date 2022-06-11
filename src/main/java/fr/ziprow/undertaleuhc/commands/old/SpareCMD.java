@@ -1,4 +1,4 @@
-package fr.ziprow.undertaleuhc.commands;
+package fr.ziprow.undertaleuhc.commands.old;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.helpers.Utils;
@@ -31,7 +31,7 @@ public class SpareCMD implements CommandExecutor
 		if(spared == null) return true;
 		
 		GameManager.spared = spared.getUniqueId();
-		Utils.informPlayer(p, "Vous épargnez " + spared.getName());
+		Utils.inform(p, "Vous épargnez " + spared.getName());
 		hasSpared = true;
 		return true;
 	}

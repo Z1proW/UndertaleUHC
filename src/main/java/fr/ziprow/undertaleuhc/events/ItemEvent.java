@@ -24,13 +24,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.util.Vector;
 
+import java.util.Objects;
+
 public class ItemEvent implements Listener
 {
-	private static UndertaleUHC main;
 	
-	Enchantment fire = Enchantment.FIRE_ASPECT;
-	
-	public ItemEvent(UndertaleUHC main) {ItemEvent.main = main;}
+	private static final Enchantment FIRE = Enchantment.FIRE_ASPECT;
 	
 	@EventHandler
 	public static void onRightClick(PlayerInteractEvent event)
@@ -47,7 +46,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_RED.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*3, 0, false, false));
 			return;
 		}
@@ -59,7 +58,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_CYAN.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*60*5, 0, false, false));
 			if(!player.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20*60*5, 0, false, false));
 			if(!player.hasPotionEffect(PotionEffectType.SLOW)) player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*60*5, 0, false, false));
@@ -73,7 +72,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_ORANGE.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*60*5, 0, false, false));
 			if(!player.hasPotionEffect(PotionEffectType.SPEED)) player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20*60*3, 0, false, false));
 			return;
@@ -86,7 +85,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_BLUE.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*60*3, 0, false, false));
 			return;
 		}
@@ -98,7 +97,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_MAGENTA.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.HEALTH_BOOST)) player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 20*60*5, 0, false, false));
 			if(!player.hasPotionEffect(PotionEffectType.HEAL)) player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0, false, false));
 			return;
@@ -111,7 +110,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_GREEN.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.REGENERATION)) player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20*5, 0, false, false));
 			return;
 		}
@@ -123,7 +122,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_YELLOW.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			player.setVelocity(player.getEyeLocation().getDirection().multiply(20).setY(2));
 			if(!player.hasPotionEffect(PotionEffectType.WEAKNESS)) player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 20*60, 0, false, false));
 			return;
@@ -136,7 +135,7 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_WHITE.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*60*5, 0, false, false));
 			return;
 		}
@@ -148,9 +147,8 @@ public class ItemEvent implements Listener
 			player.getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, 0);
 			player.getWorld().playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
 			player.getInventory().removeItem(Item.SOUL_BLACK.getItem());
-			Utils.informPlayer(player, "Vous avez absorbé l'âme");
+			Utils.inform(player, "Vous avez absorbé l'âme");
 			if(!player.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*60*5, 0, false, false));
-			return;
 		}
 	}
 	
@@ -162,13 +160,13 @@ public class ItemEvent implements Listener
 		ItemStack bow = event.getBow();
 		Arrow arrow = (Arrow)event.getProjectile();
 		
-		if(bow.getItemMeta().equals(Item.CHAOS_BUSTER.getItem().getItemMeta()))
+		if(bow.getItemMeta().equals(Objects.requireNonNull(Item.CHAOS_BUSTER.getItem()).getItemMeta()))
 		{
-			new LightningArrowTask(arrow).runTaskTimer(main, 0, 1);
+			new LightningArrowTask(arrow).runTaskTimer(UndertaleUHC.getInstance(), 0, 1);
 			return;
 		}
 		
-		if(bow.getItemMeta().equals(Item.CUPID_BOW.getItem().getItemMeta()))
+		if(bow.getItemMeta().equals(Objects.requireNonNull(Item.CUPID_BOW.getItem()).getItemMeta()))
 		{
 			Vector v = arrow.getVelocity();
 			event.setProjectile(null);
@@ -182,7 +180,7 @@ public class ItemEvent implements Listener
 			return;
 		}
 		
-		if(bow.getItemMeta().equals(Item.DARK_BOW.getItem().getItemMeta()))
+		if(bow.getItemMeta().equals(Objects.requireNonNull(Item.DARK_BOW.getItem()).getItemMeta()))
 		{
 			Vector v = arrow.getVelocity();
 			event.setProjectile(null);
@@ -196,18 +194,18 @@ public class ItemEvent implements Listener
 			return;
 		}
 		
-		if(bow.getItemMeta().equals(Item.RAPID_BOW.getItem().getItemMeta()))
+		if(bow.getItemMeta().equals(Objects.requireNonNull(Item.RAPID_BOW.getItem()).getItemMeta()))
 		{
 			arrow.setVelocity(arrow.getVelocity().multiply(1.6));
-			return;
 		}
 	}
 	
 	@EventHandler
 	public void TridentFireAspect(EntityDamageByEntityEvent event)
 	{
-		if(!(event.getDamager() instanceof Player) || ((Player)event.getDamager()).getInventory().getItemInHand() == null || !((Player)event.getDamager()).getInventory().getItemInHand().containsEnchantment(fire) || !((Player)event.getDamager()).getInventory().getItemInHand().getItemMeta().equals(Item.TRIDENT.getItem().getItemMeta())) return;
+		if(!(event.getDamager() instanceof Player) || ((Player)event.getDamager()).getInventory().getItemInHand() == null || !((Player)event.getDamager()).getInventory().getItemInHand().containsEnchantment(FIRE) || !((Player)event.getDamager()).getInventory().getItemInHand().getItemMeta().equals(Objects.requireNonNull(Item.TRIDENT.getItem()).getItemMeta())) return;
 		
 		if(Math.random() * 100.0D < 10) event.getEntity().setFireTicks(20*3);
 	}
+
 }

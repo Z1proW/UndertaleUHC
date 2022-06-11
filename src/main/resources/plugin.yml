@@ -5,14 +5,15 @@ api-version: 1.8
 author: Z1proW
 
 commands:
-  uuhc:
-    description:Main command for UndertaleUHC. Use /uuhc help for more info
+  undertaleuhc:
+    description: Main command for UndertaleUHC. Use /uuhc help for more info
+    aliases: [uuhc]
 
 permissions:
-  template.user:
+  undertaleuhc.user:
     description: Allows player to use the plugin's user features
     default: true
 
-  template.admin:
+  undertaleuhc.admin:
     description: Allows player to use the plugin's admin features
     default: op

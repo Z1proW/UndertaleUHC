@@ -1,4 +1,4 @@
-package fr.ziprow.undertaleuhc.commands;
+package fr.ziprow.undertaleuhc.commands.old;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.helpers.Utils;
@@ -29,7 +29,7 @@ public class RoleCMD implements CommandExecutor
 		for(Role r : Role.values()) if(ChatColor.stripColor(r.getName()).equalsIgnoreCase(args[0])) role = r;
 		if(role == null) {p.sendMessage("Wrong role name"); return true;}
 		GameManager.rolesMap.replace(p.getUniqueId(), role);
-		Utils.informPlayer(p, "Vous êtes maintenant : " + role.getName());
+		Utils.inform(p, "Vous êtes maintenant : " + role.getName());
 		return true;
 	}
 }

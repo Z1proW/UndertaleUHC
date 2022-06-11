@@ -15,7 +15,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 public class EpisodesTask extends BukkitRunnable
 {
-	private GameManager game;
+	private final GameManager game;
 	public static int defaultTimer = 20;
 	
 	private int episode = 0;
@@ -35,7 +35,7 @@ public class EpisodesTask extends BukkitRunnable
 		{
 			episode++;
 			eptimer = defaultTimer;
-			Utils.broadcast("&5" + Utils.line + "&5Episode " + episode + Utils.line);
+			Utils.broadcast("&5" + Utils.LINE_SEPARATOR + "&5Episode " + episode + Utils.LINE_SEPARATOR);
 			for(Player p : Bukkit.getOnlinePlayers()) p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0f, 0.5f);
 			switch(episode)
 			{

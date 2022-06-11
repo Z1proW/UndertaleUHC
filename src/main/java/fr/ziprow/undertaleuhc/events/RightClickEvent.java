@@ -2,9 +2,9 @@ package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.UndertaleUHC;
-import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Role;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.plugin.Plugin;
+
+import java.util.Objects;
 
 public class RightClickEvent implements Listener
 {
-	private UndertaleUHC main;
-	private GameManager gameManager;
+
+	private final GameManager gameManager;
 	
-	public RightClickEvent(UndertaleUHC main, GameManager gameManager)
+	public RightClickEvent(GameManager gameManager)
 	{
-		this.main = main;
 		this.gameManager = gameManager;
 	}
 	
@@ -45,7 +45,7 @@ public class RightClickEvent implements Listener
 		
 		if(GameManager.rolesMap.get(p.getUniqueId()).equals(Role.JUSTICE))
 		{
-			if(interros == 0 || interrogating || interrogated == c.getName()) return;
+			if(interros == 0 || interrogating || Objects.equals(interrogated, c.getName())) return;
 			
 			Utils.sendMessage(p,
 			"",
@@ -57,19 +57,20 @@ public class RightClickEvent implements Listener
 			interrogating = true;
 			interrogated = c.getName();
 			
-			Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin)this.main, () -> {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UndertaleUHC.getInstance(), () ->
+			{
 				if(!GameManager.rolesMap.containsKey(c.getUniqueId())) return;
 				Utils.sendMessage(p,
 				"",
 				"&cL'âme de &e" + c.getName() + "&c est " + ChatColorToString(GameManager.rolesMap.get(c.getUniqueId()).getColor()) + "&c !");
-				Utils.warnPlayer(c, "la couleur de votre ame a été compromise");
+				Utils.warn(c, "la couleur de votre ame a été compromise");
 				interrogating = false;
 			}, 20 * 60 * 5);
 		}
 		
 		if(GameManager.rolesMap.get(p.getUniqueId()).equals(Role.ALPHYS))
 		{
-			if(auscultations == 0 || auscultating || auscultated == c.getName()) return;
+			if(auscultations == 0 || auscultating || Objects.equals(auscultated, c.getName())) return;
 			
 			Utils.sendMessage(p,
 			"",
@@ -81,12 +82,13 @@ public class RightClickEvent implements Listener
 			auscultating = true;
 			auscultated = c.getName();
 			
-			Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin)this.main, () -> {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(UndertaleUHC.getInstance(), () ->
+			{
 				if(!GameManager.rolesMap.containsKey(c.getUniqueId())) return;
 				Utils.sendMessage(p,
 				"",
 				"&cL'âme de &e" + c.getName() + "&c est " + ChatColorToString(GameManager.rolesMap.get(c.getUniqueId()).getColor()) + "&c !");
-				Utils.warnPlayer(c, "la couleur de votre ame a été compromise");
+				Utils.warn(c, "la couleur de votre ame a été compromise");
 				auscultating = false;
 			}, 20 * 60 * 5);
 		}
@@ -118,4 +120,5 @@ public class RightClickEvent implements Listener
 				return "";
 		}
 	}
+
 }

@@ -1,4 +1,4 @@
-package fr.ziprow.undertaleuhc.commands;
+package fr.ziprow.undertaleuhc.commands.old;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.helpers.Utils;

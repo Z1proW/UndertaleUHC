@@ -17,12 +17,11 @@ import org.bukkit.potion.PotionEffectType;
 
 public class RemoveArmorEvent implements Listener
 {
-	private UndertaleUHC main;
-	private GameManager gameManager;
+
+	private final GameManager gameManager;
 	
-	public RemoveArmorEvent(UndertaleUHC main, GameManager gameManager)
+	public RemoveArmorEvent(GameManager gameManager)
 	{
-		this.main = main;
 		this.gameManager = gameManager;
 	}
 	
@@ -36,21 +35,17 @@ public class RemoveArmorEvent implements Listener
 		if(Utils.getRole(p) != Role.NAPSTABLOOK) return;
 		
 		boolean hadArmor = hasArmor(p);
-		Bukkit.getScheduler().runTaskLater(main, new Runnable()
+		Bukkit.getScheduler().runTaskLater(UndertaleUHC.getInstance(), () ->
 		{
-			@Override
-			public void run()
+			for(PotionEffectType type : new PotionEffectType[] {PotionEffectType.INVISIBILITY, PotionEffectType.JUMP, PotionEffectType.SPEED, PotionEffectType.WEAKNESS})
 			{
-				for(PotionEffectType type : new PotionEffectType[] {PotionEffectType.INVISIBILITY, PotionEffectType.JUMP, PotionEffectType.SPEED, PotionEffectType.WEAKNESS})
+				if(hadArmor && !hasArmor(p))
 				{
-					if(hadArmor && !hasArmor(p)) 
-					{
-						if(p.hasPotionEffect(type)) p.removePotionEffect(type);
-						p.addPotionEffect(new PotionEffect(type, 20*60*5, 1, false, false));
-					}
-					if(!hadArmor && hasArmor(p))
-						if(p.hasPotionEffect(type)) p.removePotionEffect(type);
+					if(p.hasPotionEffect(type)) p.removePotionEffect(type);
+					p.addPotionEffect(new PotionEffect(type, 20*60*5, 1, false, false));
 				}
+				if(!hadArmor && hasArmor(p))
+					if(p.hasPotionEffect(type)) p.removePotionEffect(type);
 			}
 		}, 1);
 	}

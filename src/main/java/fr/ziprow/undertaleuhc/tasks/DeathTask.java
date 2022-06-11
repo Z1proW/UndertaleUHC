@@ -25,10 +25,10 @@ import java.util.UUID;
 
 public class DeathTask extends BukkitRunnable
 {
-	private GameManager gameManager;
-	private Player player;
-	private Location loc;
-	private Inventory inv;
+	private final GameManager gameManager;
+	private final Player player;
+	private final Location loc;
+	private final Inventory inv;
 	
 	public int timer = 10;
 	public static boolean revive = true;
@@ -57,7 +57,7 @@ public class DeathTask extends BukkitRunnable
 					Player p = Bukkit.getPlayer(u);
 					if(p != null && GameManager.rolesMap.get(p.getUniqueId()).equals(Role.PERSEVERANCE) && p.getKiller() != null && (GameManager.rolesMap.get(p.getKiller().getUniqueId()).getColor() != ChatColor.WHITE || GameManager.rolesMap.get(p.getKiller().getUniqueId()).equals(Role.LOVE)))
 					{
-						Utils.warnPlayer(p, "Vous avez une deuxième vie");
+						Utils.warn(p, "Vous avez une deuxième vie");
 						
 						player.setGameMode(GameMode.SURVIVAL);
 						// On téléporte le joueur de façon aléatoire
@@ -76,7 +76,7 @@ public class DeathTask extends BukkitRunnable
 				}
 			}
 			
-			Utils.warnPlayer(player, "Ne quittez pas, vous pourriez ressusciter");
+			Utils.warn(player, "Ne quittez pas, vous pourriez ressusciter");
 			
 			revive = false;
 			
@@ -110,22 +110,16 @@ public class DeathTask extends BukkitRunnable
 				{
 					hasRevive = false;
 					
-					Utils.informPlayer(kindness, "Vous avez ressuscité ce joueur");
+					Utils.inform(kindness, "Vous avez ressuscité ce joueur");
 					player.setGameMode(GameMode.SURVIVAL);
-					// On téléporte le joueur de façon aléatoire
-					Random random = new Random();
-					int x = random.nextInt(200) - 100;
-					int z = random.nextInt(200) - 100;
-					Location loc = new Location(player.getWorld(), x, player.getWorld().getHighestBlockYAt(x, z) + 2, z);
-					loc.getChunk().load(true);
-					player.teleport(loc);
+					Utils.randomTeleport(player, 200, 2);
 					
 					cancel();
 					return;
 				}
-				else Utils.warnPlayer(kindness, "Vous ne pouvez pas vous ressusciter vous même");
+				else Utils.warn(kindness, "Vous ne pouvez pas vous ressusciter vous même");
 			}
-			else Utils.warnPlayer(kindness, "Vous avez déja ressuscité un joueur");
+			else Utils.warn(kindness, "Vous avez déja ressuscité un joueur");
 		}
 		
 		if(timer == 0)
@@ -160,10 +154,10 @@ public class DeathTask extends BukkitRunnable
 			
 			// On affiche le message de mort
 			Utils.broadcast(
-					"&c" + Utils.line + "&c\u2764" + Utils.line,
+					"&c" + Utils.LINE_SEPARATOR + "&c\u2764" + Utils.LINE_SEPARATOR,
 					"&2" + p.getName() + " est mort !",
 					"&2Il était &o" + role.getName() + "&r&2.",
-					"&c" + Utils.line + "&c\u2764" + Utils.line);
+					"&c" + Utils.LINE_SEPARATOR + "&c\u2764" + Utils.LINE_SEPARATOR);
 			
 			// On enlève force à Frisk si le joueur épargné est mort
 			if(p.equals(Bukkit.getPlayer(GameManager.spared)))
@@ -173,7 +167,7 @@ public class DeathTask extends BukkitRunnable
 				if(frisk != null)
 				{
 					frisk.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-					Utils.informPlayer(frisk, "Vous avez perdu Force car le joueur épargné est mort");
+					Utils.inform(frisk, "Vous avez perdu Force car le joueur épargné est mort");
 				}
 			}
 			
@@ -185,7 +179,7 @@ public class DeathTask extends BukkitRunnable
 				if(toriel != null)
 				{
 					toriel.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-					Utils.informPlayer(toriel, "Vous avez perdu Résistance car le joueur sympatisé est mort");
+					Utils.inform(toriel, "Vous avez perdu Résistance car le joueur sympatisé est mort");
 				}
 			}
 			
@@ -197,7 +191,7 @@ public class DeathTask extends BukkitRunnable
 				if(hatred != null)
 				{
 					hatred.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-					Utils.informPlayer(hatred, "Vous avez perdu Force car Amour est mort");
+					Utils.inform(hatred, "Vous avez perdu Force car Amour est mort");
 				}
 			}
 			else if(Utils.getRole(p).equals(Role.HATRED))
@@ -207,7 +201,7 @@ public class DeathTask extends BukkitRunnable
 				if(love != null)
 				{
 					love.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-					Utils.informPlayer(love, "Vous avez perdu Résistance car Haine est morte");
+					Utils.inform(love, "Vous avez perdu Résistance car Haine est morte");
 				}
 			}
 			
@@ -219,7 +213,7 @@ public class DeathTask extends BukkitRunnable
 				if(flowey != null)
 				{
 					GameManager.rolesMap.replace(flowey.getUniqueId(), Role.PHOTOSHOP_FLOWEY);
-					Utils.informPlayer(flowey, "Vous avez tué Détermination donc vous vous transformez en Photoshop Flowey");
+					Utils.inform(flowey, "Vous avez tué Détermination donc vous vous transformez en Photoshop Flowey");
 					Utils.info(flowey);
 				}
 			}
@@ -235,7 +229,7 @@ public class DeathTask extends BukkitRunnable
 					if(bravery != null)
 					{
 						bravery.setMaxHealth(bravery.getMaxHealth() + 2);
-						Utils.informPlayer(bravery, "Vous avez tué un monstre donc vous avez gagné un coeur permanent");
+						Utils.inform(bravery, "Vous avez tué un monstre donc vous avez gagné un coeur permanent");
 					}
 				}
 			}
@@ -248,7 +242,7 @@ public class DeathTask extends BukkitRunnable
 				if(sans != null)
 				{
 					GameManager.rolesMap.replace(sans.getUniqueId(), Role.SANS_GLOWING_EYE);
-					Utils.informPlayer(sans, "Papyrus est mort donc vous avez l'Oeil Brillant");
+					Utils.inform(sans, "Papyrus est mort donc vous avez l'Oeil Brillant");
 					Utils.info(sans);
 					Utils.getRole(sans).giveStuff(sans);
 				}
@@ -276,7 +270,7 @@ public class DeathTask extends BukkitRunnable
 				if(flowey != null)
 				{
 					GameManager.rolesMap.replace(flowey.getUniqueId(), Role.ASRIEL);
-					Utils.informPlayer(flowey, "Il ne reste que 2 monstres donc vous vous transformez en Asriel");
+					Utils.inform(flowey, "Il ne reste que 2 monstres donc vous vous transformez en Asriel");
 					Utils.info(flowey);
 				}
 			}
@@ -293,7 +287,7 @@ public class DeathTask extends BukkitRunnable
 			}
 			
 			// Fin de game
-			String line = "&d" + Utils.line + "&d\u2764" + Utils.line;
+			String line = "&d" + Utils.LINE_SEPARATOR + "&d\u2764" + Utils.LINE_SEPARATOR;
 			
 			if(human == 0 && monsters == 0 && neutral == 0) // win personne
 			{
@@ -341,7 +335,6 @@ public class DeathTask extends BukkitRunnable
 			}
 		}
 		cancel();
-		return;
 	}
 	
 	private void end()

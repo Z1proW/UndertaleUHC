@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class PlayerEvent implements Listener
 {
-	private GameManager gameManager;
+	private final GameManager gameManager;
 	
 	public PlayerEvent(GameManager gameManager) {this.gameManager = gameManager;}
 	
@@ -32,7 +32,7 @@ public class PlayerEvent implements Listener
 		Player p = event.getPlayer();
 		
 		/*// Installation du Pack
-		Utils.warnPlayer(p, "Installation du pack de texture");
+		Utils.warn(p, "Installation du pack de texture");
 		p.setResourcePack("https://docs.google.com/uc?export=download&id=1rOai9FIVUSp36o_4z0wwqKK9ZMSFwfSn");
 		*/
 		// Rejoint pendant l'attente
@@ -42,7 +42,11 @@ public class PlayerEvent implements Listener
 			p.setGameMode(GameMode.ADVENTURE);
 			Bukkit.broadcastMessage("");
 			event.setJoinMessage(Utils.color("&8[&c+&8] &r&o" + p.getName() + " &8< &c" + Bukkit.getOnlinePlayers().size() + "&8/&c" + Bukkit.getMaxPlayers() + " &8>"));
+
 			Utils.clear(p);
+			p.setMaxHealth(20);
+			Utils.heal(p);
+
 			startBoard(p);
 			return;
 		}
@@ -60,7 +64,7 @@ public class PlayerEvent implements Listener
 		// Rejoint pendant la partie
 		event.setJoinMessage("");
 		p.setGameMode(GameMode.SPECTATOR);
-		Utils.informPlayer(p, "La partie a déja commencé");
+		Utils.inform(p, "La partie a déja commencé");
 	}
 	
 	@EventHandler

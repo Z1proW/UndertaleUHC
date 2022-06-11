@@ -1,4 +1,4 @@
-package fr.ziprow.undertaleuhc.commands;
+package fr.ziprow.undertaleuhc.commands.old;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.helpers.Utils;
@@ -32,7 +32,7 @@ public class SympaCMD implements CommandExecutor
 		if(sympa == null) return true;
 		
 		GameManager.sympathized = sympa.getUniqueId();
-		Utils.informPlayer(p, "Vous sympatisez avec " + sympa.getName());
+		Utils.inform(p, "Vous sympatisez avec " + sympa.getName());
 		hasSympa = true;
 		return true;
 	}

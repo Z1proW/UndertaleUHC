@@ -21,8 +21,7 @@ import java.util.*;
 
 public class GameManager
 {
-	private UndertaleUHC main;
-	private PlayerEvent playerListener;
+
 	private GameState gameState = GameState.WAITING;
 	public static Map<UUID, Role> rolesMap = new HashMap<>();
 	public static List<UUID> playing = new ArrayList<>();
@@ -31,11 +30,9 @@ public class GameManager
 	public static UUID sympathized;
 	private Player patience;
 	
-	public GameManager(UndertaleUHC main)
+	public GameManager()
 	{
-		this.main = main;
-		this.playerListener = new PlayerEvent(this);
-		main.getServer().getPluginManager().registerEvents(playerListener, main);
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerEvent(this), UndertaleUHC.getInstance());
 		initEvents();
 	}
 	
@@ -60,7 +57,7 @@ public class GameManager
 				
 				// Timer de démarrage
 				StartTask startTask = new StartTask(this);
-				startTask.runTaskTimer(main, 0, 20);
+				startTask.runTaskTimer(UndertaleUHC.getInstance(), 0, 20);
 				
 				break;
 				
@@ -73,7 +70,7 @@ public class GameManager
 				setPlayers();
 				
 				EpisodesTask epTask = new EpisodesTask(this);
-				epTask.runTaskTimer(main, 0, 20);
+				epTask.runTaskTimer(UndertaleUHC.getInstance(), 0, 20);
 				
 				break;
 				
@@ -100,7 +97,7 @@ public class GameManager
 				if(ally != null)
 				{
 					ShareHealth shareTask = new ShareHealth();
-					shareTask.runTaskTimer(main, 0, 4);
+					shareTask.runTaskTimer(UndertaleUHC.getInstance(), 0, 4);
 				}
 				
 				// Vie de Bravoure
@@ -122,16 +119,12 @@ public class GameManager
 					friskMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/choosefrisk"));
 					determination.spigot().sendMessage(friskMsg);
 					
-					Bukkit.getScheduler().runTaskLater(main, new Runnable()
+					Bukkit.getScheduler().runTaskLater(UndertaleUHC.getInstance(), () ->
 					{
-						@Override
-					    public void run()
-					    {
-							if(!Utils.getRole(determination).equals(Role.DETERMINATION)) return;
-					    	Utils.informPlayer(determination, "Vous avez pris trop longtemps pour choisir vétre réle, il a été choisi aléatoirement");
-					    	if(new Random().nextBoolean()) determination.performCommand("choosechara");
-					    	else determination.performCommand("choosefrisk");
-						}
+						if(!Utils.getRole(determination).equals(Role.DETERMINATION)) return;
+						Utils.inform(determination, "Vous avez pris trop longtemps pour choisir vétre réle, il a été choisi aléatoirement");
+						if(new Random().nextBoolean()) determination.performCommand("choosechara");
+						else determination.performCommand("choosefrisk");
 					}, 20 * 30);
 				}
 				
@@ -152,18 +145,14 @@ public class GameManager
 						}
 					}
 					
-					Bukkit.getScheduler().runTaskLater(main, new Runnable()
+					Bukkit.getScheduler().runTaskLater(UndertaleUHC.getInstance(), () ->
 					{
-						@Override
-					    public void run()
-					    {
-							if(GameManager.sympathized != null) return;
-					    	Utils.informPlayer(toriel, "Vous avez pris trop longtemps pour sympathiser avec un joueur, il a été choisi aléatoirement");
-					    	Player sympathized;
-					    	do sympathized = Bukkit.getPlayer(GameManager.playing.get(new Random().nextInt(GameManager.playing.size())));
-					    	while(sympathized.equals(toriel));
-					    	toriel.performCommand("sympa " + sympathized.getName());
-						}
+						if(GameManager.sympathized != null) return;
+						Utils.inform(toriel, "Vous avez pris trop longtemps pour sympathiser avec un joueur, il a été choisi aléatoirement");
+						Player sympathized;
+						do sympathized = Bukkit.getPlayer(GameManager.playing.get(new Random().nextInt(GameManager.playing.size())));
+						while(sympathized.equals(toriel));
+						toriel.performCommand("sympa " + sympathized.getName());
 					}, 20 * 30);
 				}
 				
@@ -189,12 +178,8 @@ public class GameManager
 				
 			case EP5:
 				
-				border.setSize(200, EpisodesTask.defaultTimer * 4);
+				border.setSize(200, EpisodesTask.defaultTimer * 4L);
 				Utils.broadcast("&eLa &6bordure &ecommence à se resserrer !");
-				
-				break;
-				
-			case EP6:
 				
 				break;
 				
@@ -205,20 +190,15 @@ public class GameManager
 				
 				break;
 				
-			case EP8:
-				
-				break;
-				
-			case EP9:
-				
-				break;
-				
 			case END:
 				
 				unregEvents();
 				
 				// fin
 				
+				break;
+
+			default:
 				break;
 		}
 	}
@@ -228,17 +208,8 @@ public class GameManager
 		for(GameState gameState : gameStates) if(this.gameState == gameState) return true;
 		return false;
 	}
-	
-	public PlayerEvent getPlayerListener() {return playerListener;}
-	
-	public void randomTeleport(Player p, int height)
-	{
-		Random random = new Random();
-		int x = random.nextInt(1001) - 500;
-		int z = random.nextInt(1001) - 500;
-		Location loc = new Location(p.getWorld(), x, p.getWorld().getHighestBlockYAt(x, z) + height, z);
-		p.teleport(loc);
-	}
+
+
 	
 	private void setRules(World world)
 	{
@@ -288,10 +259,10 @@ public class GameManager
 		Collections.shuffle(rolesHuman);
 		Collections.shuffle(rolesMonster);
 		Collections.shuffle(rolesNeutral);
-		
-		for(Role r : rolesMonster) roles.add(r);
-		for(Role r : rolesHuman) roles.add(r);
-		for(Role r : rolesNeutral) roles.add(r);
+
+		roles.addAll(rolesMonster);
+		roles.addAll(rolesHuman);
+		roles.addAll(rolesNeutral);
 		
 		for(Player p : Bukkit.getOnlinePlayers()) playing.add(p.getUniqueId());
 		
@@ -349,13 +320,15 @@ public class GameManager
 		{
 			// On clear
 			Utils.clear(p);
+			p.setMaxHealth(20);
+			Utils.heal(p);
 			
 			// On donne du steak
 			p.getInventory().setItem(8, new ItemStack(Material.COOKED_BEEF, 64));
 			p.updateInventory();
 			
 			// On téléporte les joueurs aléatoirement
-			randomTeleport(p, 40);
+			Utils.randomTeleport(p, 1000, 40);
 			Bukkit.broadcastMessage(Utils.color("&6" + p.getName() + " &ea été teleporté !"));
 		}
 	}
@@ -364,7 +337,7 @@ public class GameManager
 	
 	private void initEvents()
 	{
-		events = new Listener[] {new ScenariosEvent(main, this), new DeathEvent(main, this), new ItemEvent(main), new RightClickEvent(main, this), new RemoveArmorEvent(main, this)};
+		events = new Listener[] {new ScenariosEvent(this), new DeathEvent(this), new ItemEvent(), new RightClickEvent(this), new RemoveArmorEvent(this)};
 	}
 	
 	private void unregEvents()
@@ -376,6 +349,7 @@ public class GameManager
 	private void regEvents()
 	{
 		for(Listener e : events)
-			main.getServer().getPluginManager().registerEvents(e, main);
+			Bukkit.getServer().getPluginManager().registerEvents(e, UndertaleUHC.getInstance());
 	}
+
 }

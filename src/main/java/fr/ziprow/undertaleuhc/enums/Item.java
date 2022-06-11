@@ -121,12 +121,10 @@ public enum Item
 	private final String path;
 
 	Item(String path) {this.path = path;}
-	
-	public String getPath() {return path;}
-	
+
 	public ItemStack getItem()
 	{
-		ConfigurationSection sct = UndertaleUHC.get().getItemsConfig().getConfigurationSection(path);
+		ConfigurationSection sct = UndertaleUHC.getInstance().getConfig().getConfigurationSection(path);
 		
 		if(path.startsWith("soul"))
 		{

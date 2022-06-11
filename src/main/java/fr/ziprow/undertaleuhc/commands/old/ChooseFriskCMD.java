@@ -1,4 +1,4 @@
-package fr.ziprow.undertaleuhc.commands;
+package fr.ziprow.undertaleuhc.commands.old;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.UndertaleUHC;
@@ -64,7 +64,7 @@ public class ChooseFriskCMD implements CommandExecutor
 		    public void run()
 		    {
 				if(GameManager.spared != null) return;
-		    	Utils.informPlayer(p, "Vous avez pris trop longtemps pour épargner un joueur, il a été choisi aléatoirement");
+		    	Utils.inform(p, "Vous avez pris trop longtemps pour épargner un joueur, il a été choisi aléatoirement");
 		    	Player spared;
 		    	do spared = Bukkit.getPlayer(GameManager.playing.get(new Random().nextInt(GameManager.playing.size())));
 		    	while(spared.equals(p));

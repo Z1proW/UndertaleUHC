@@ -2,10 +2,10 @@ package fr.ziprow.undertaleuhc.events;
 
 import fr.ziprow.undertaleuhc.GameManager;
 import fr.ziprow.undertaleuhc.UndertaleUHC;
-import fr.ziprow.undertaleuhc.helpers.Utils;
 import fr.ziprow.undertaleuhc.enums.GameState;
 import fr.ziprow.undertaleuhc.enums.Item;
 import fr.ziprow.undertaleuhc.enums.Role;
+import fr.ziprow.undertaleuhc.helpers.Utils;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,8 +38,6 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -50,8 +48,8 @@ import java.util.Map;
 
 public class ScenariosEvent implements Listener
 {
-	private UndertaleUHC main;
-	private GameManager gameManager;
+
+	private final GameManager gameManager;
 	
 	Map<Player, Integer> limitPerPlayer = new HashMap<>();
 	Enchantment prot = Enchantment.PROTECTION_ENVIRONMENTAL;
@@ -59,7 +57,10 @@ public class ScenariosEvent implements Listener
 	Enchantment fire = Enchantment.FIRE_ASPECT;
 	Enchantment power = Enchantment.ARROW_DAMAGE;
 	
-	public ScenariosEvent(UndertaleUHC main, GameManager gameManager) {this.main = main; this.gameManager = gameManager;}
+	public ScenariosEvent(GameManager gameManager)
+	{
+		this.gameManager = gameManager;
+	}
 
 	@EventHandler
 	public void NoHorses(EntityMountEvent event) {event.setCancelled(true);}
@@ -113,11 +114,11 @@ public class ScenariosEvent implements Listener
 	public void NoChat(AsyncPlayerChatEvent event)
 	{
 		((Cancellable) event).setCancelled(true);
-		Utils.informPlayer(event.getPlayer(), "Le chat est désactivé");
+		Utils.inform(event.getPlayer(), "Le chat est désactivé");
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void XPBoost(BlockExpEvent event) {event.setExpToDrop((int)(event.getExpToDrop() * 2));}
+	public void XPBoost(BlockExpEvent event) {event.setExpToDrop(event.getExpToDrop() * 2);}
 	
 	@EventHandler
 	public void FastSmelting(FurnaceBurnEvent event)
@@ -135,7 +136,7 @@ public class ScenariosEvent implements Listener
 				}
 				else cancel();
 			}
-		}).runTaskTimer((Plugin)this.main, 1L, 1L);
+		}).runTaskTimer(UndertaleUHC.getInstance(), 1L, 1L);
 	}
 	
 	@EventHandler
@@ -177,14 +178,10 @@ public class ScenariosEvent implements Listener
 				p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20 * 2, 0), true);
 				EntityPlayer ep = ((CraftPlayer)p).getHandle();
 				ep.setAbsorptionHearts(6);
-				Bukkit.getScheduler().runTaskLater(main, new Runnable()
+				Bukkit.getScheduler().runTaskLater(UndertaleUHC.getInstance(), () ->
 				{
-					@Override
-					public void run()
-					{
-						if(!p.hasPotionEffect(PotionEffectType.ABSORPTION))
-							ep.setAbsorptionHearts(0);
-					}
+					if(!p.hasPotionEffect(PotionEffectType.ABSORPTION))
+						ep.setAbsorptionHearts(0);
 				}, 20 * 60 * 2);
 			}
 		}
@@ -213,31 +210,14 @@ public class ScenariosEvent implements Listener
 		ItemStack item = inv.getItem(2);
 		
 		if(item == null) return;
+
+		Map<Enchantment, Integer> enchants;
 		
 		if(item.getType() == Material.ENCHANTED_BOOK
 		&& item.getItemMeta() instanceof EnchantmentStorageMeta)
-		{
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta)item.getItemMeta();
-			Map<Enchantment, Integer> enchants = meta.getStoredEnchants();
-			
-			if((enchants.containsKey(sharp) && enchants.get(sharp) > 3
-			&& (!Utils.getRole((Player)event.getWhoClicked()).equals(Role.CHARA)
-			|| enchants.containsKey(sharp) && enchants.get(sharp) > 4))
-			|| (enchants.containsKey(prot) && enchants.get(prot) > 2
-			|| enchants.containsKey(fire)
-			|| enchants.containsKey(power) && enchants.get(power) > 2)
-			|| (item.containsEnchantment(sharp) && item.getEnchantmentLevel(sharp) > 3
-			&& (!Utils.getRole((Player)event.getWhoClicked()).equals(Role.CHARA)
-			|| item.containsEnchantment(sharp) && item.getEnchantmentLevel(sharp) > 4)
-			|| item.containsEnchantment(prot) && item.getEnchantmentLevel(prot) > 2
-			|| item.containsEnchantment(fire)
-			|| item.containsEnchantment(power) && item.getEnchantmentLevel(power) > 2))
-				inv.setItem(2, new ItemStack(Material.AIR));
-		}
-		
-		ItemMeta meta = item.getItemMeta();
-		Map<Enchantment, Integer> enchants = meta.getEnchants();
-		
+			enchants = ((EnchantmentStorageMeta)item.getItemMeta()).getStoredEnchants();
+		else enchants = item.getItemMeta().getEnchants();
+
 		if((enchants.containsKey(sharp) && enchants.get(sharp) > 3
 		&& (!Utils.getRole((Player)event.getWhoClicked()).equals(Role.CHARA)
 		|| enchants.containsKey(sharp) && enchants.get(sharp) > 4))
@@ -294,7 +274,7 @@ public class ScenariosEvent implements Listener
 		&& !gameManager.isState(GameState.EP1, GameState.EP2, GameState.EP3))
 		{
 			player.sendTitle("&cMEETUP", "Remontez à la surface");
-			((ExperienceOrb)block.getWorld().spawn(loc, ExperienceOrb.class)).setExperience(event.getExpToDrop());
+			block.getWorld().spawn(loc, ExperienceOrb.class).setExperience(event.getExpToDrop());
 			block.setType(Material.AIR);
 			return;
 		}
@@ -318,13 +298,13 @@ public class ScenariosEvent implements Listener
 				Material hand = player.getItemInHand().getType();
 				if(hand != Material.DIAMOND_PICKAXE && hand != Material.IRON_PICKAXE)
 					break;
-				if(limitPerPlayer.getOrDefault(player, 0).intValue() >= 17)
+				if(limitPerPlayer.getOrDefault(player, 0) >= 17)
 				{
 					block.getWorld().dropItemNaturally(loc, new ItemStack(Material.GOLD_INGOT, 1));
-					((ExperienceOrb)block.getWorld().spawn(loc, ExperienceOrb.class)).setExperience(event.getExpToDrop());
+					block.getWorld().spawn(loc, ExperienceOrb.class).setExperience(event.getExpToDrop());
 					block.setType(Material.AIR);
 				}
-				limitPerPlayer.put(player, limitPerPlayer.getOrDefault(player, 0).intValue() + 1);
+				limitPerPlayer.put(player, limitPerPlayer.getOrDefault(player, 0) + 1);
 				break;
 				
 			default:

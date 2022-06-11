@@ -10,9 +10,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class StartTask extends BukkitRunnable
 {
-	private GameManager gameManager;
+	private final GameManager gameManager;
 	private int timer = 2;
-	private int p = Bukkit.getOnlinePlayers().size();
+	private final int prevSize = Bukkit.getOnlinePlayers().size();
 	
 	public StartTask(GameManager gameManager)
 	{
@@ -28,7 +28,7 @@ public class StartTask extends BukkitRunnable
 			p.getWorld().playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 		}
 		
-		if(p > Bukkit.getOnlinePlayers().size())
+		if(prevSize > Bukkit.getOnlinePlayers().size())
 		{
 			cancel();
 			Utils.broadcast("&eUn joueur a quitté, en attente!");

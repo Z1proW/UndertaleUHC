@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LightningArrowTask extends BukkitRunnable
 {
-	private Arrow arrow;
+	private final Arrow arrow;
 	
 	public LightningArrowTask(Arrow arrow)
 	{
