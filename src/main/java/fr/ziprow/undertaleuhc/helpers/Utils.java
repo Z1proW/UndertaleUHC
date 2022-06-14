@@ -154,6 +154,30 @@ public final class Utils
 		return book;
 	}
 
+	public static ItemStack createEnchBook(Object... enchants)
+	{
+		return createEnchBook(map(enchants));
+	}
+
+	public static <K, V> Map<K, V> map(Object... inputs)
+	{
+		if((inputs.length & 1) != 0) // + null check
+			throw new InternalError("length is odd");
+
+		Map<K, V> map = new HashMap<>();
+
+		for(int i = 0; i < inputs.length; i += 2)
+		{
+			@SuppressWarnings("unchecked")
+			K k = Objects.requireNonNull((K)inputs[i]);
+			@SuppressWarnings("unchecked")
+			V v = Objects.requireNonNull((V)inputs[i+1]);
+			map.put(k, v);
+		}
+
+		return map;
+	}
+
 	/* Player */
 
 	public static void sendMessage(Player p, String... msgs)
